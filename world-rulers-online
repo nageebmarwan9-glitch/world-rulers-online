@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World Rulers Online</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101827;color:#fff;font-family:Arial,sans-serif}
+header{background:#17243a;padding:16px;text-align:center;border-bottom:2px solid #36d399}
+h1{color:#36d399;margin:8px;font-size:25px}
+main{padding:16px;max-width:850px;margin:auto}
+.card{background:#1c2b42;padding:16px;border-radius:14px;margin:14px 0}
+input,select,button{width:100%;padding:13px;margin:6px 0;border-radius:8px;border:0;font-size:16px}
+button{background:#36d399;color:#09251d;font-weight:bold}
+button:active{opacity:.8}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#253954;padding:13px;border-radius:10px;text-align:center}
+small{color:#bdcbe0}
+#notice{color:#36d399}
+</style>
+</head>
+<body>
+<header>
+<h1>🌍 حُكْم العالم</h1>
+World Rulers Online
+</header>
+<main>
+<div class="card">
+<h3>👑 دخول القائد</h3>
+<input id="player" placeholder="اكتب اسم القائد">
+<button onclick="enterGame()">دخول اللعبة</button>
+<p id="notice">اختر اسمك وابدأ بناء دولتك.</p>
+</div>
+<section id="game" style="display:none">
+<div class="card">
+<h3>🏳️ اختر دولتك</h3>
+<select id="country">
+<option>مصر</option><option>السعودية</option>
+<option>المغرب</option><option>الجزائر</option>
+<option>ألمانيا</option><option>فرنسا</option>
+<option>الولايات المتحدة</option><option>الصين</option>
+<option>اليابان</option><option>البرازيل</option>
+<option>تركيا</option><option>الهند</option>
+</select>
+<button onclick="chooseCountry()">تأكيد الدولة</button>
+</div>
+<div class="card">
+<h3>📊 موارد دولتك</h3>
+<div class="stats">
+<div class="stat">💵 الخزينة<strong id="money"><br>1,000,000 $</strong></div>
+<div class="stat">👥 السكان<strong id="people"><br>1,000,000</strong></div>
+<div class="stat">🎓 التعليم<strong id="edu"><br>المستوى 1</strong></div>
+<div class="stat">🛡️ الجيش<strong id="army"><br>1000</strong></div>
+</div>
+</div>
+<div class="card">
+<h3>🏗️ إدارة الدولة</h3>
+<button onclick="action('edu')">🎓 تطوير التعليم — 50,000 $</button>
+<button onclick="action('army')">🛡️ تدريب الجيش — 100,000 $</button>
+<button onclick="action('income')">💰 تحصيل الضرائب + 25,000 $</button>
+<button onclick="action('ally')">🤝 إرسال طلب تحالف</button>
+<button onclick="action('war')">⚔️ بدء حرب افتراضية</button>
+<p id="result"></p>
+</div>
+</section>
+</main>
+<script>
+let money=1000000,edu=1,army=1000;
+function enterGame(){
+let n=document.getElementById('player').value.trim();
+if(!n){document.getElementById('notice').textContent='اكتب اسم القائد أولاً';return}
+document.getElementById('notice').textContent='مرحباً أيها القائد '+n;
+document.getElementById('game').style.display='block';
+}
+function chooseCountry(){
+document.getElementById('notice').textContent='أنت قائد دولة '+document.getElementById('country').value;
+}
+function update(){
+document.getElementById('money').innerHTML='<br>'+money.toLocaleString()+' $';
+document.getElementById('edu').innerHTML='<br>المستوى '+edu;
+document.getElementById('army').innerHTML='<br>'+army.toLocaleString();
+}
+function action(a){
+let r=document.getElementById('result');
+if(a==='edu'){
+if(money<50000){r.textContent='الخزينة لا تكفي';return}
+money-=50000;edu++;r.textContent='تم تطوير التعليم محلياً';
+}
+if(a==='army'){
+if(money<100000){r.textContent='الخزينة لا تكفي';return}
+money-=100000;army+=500;r.textContent='تم تدريب 500 جندي افتراضي';
+}
+if(a==='income'){money+=25000;r.textContent='تمت إضافة الضرائب الافتراضية للخزينة'}
+if(a==='ally')r.textContent='نظام التحالفات الأونلاين يحتاج سيرفر وقاعدة بيانات';
+if(a==='war')r.textContent='نظام الحرب بين اللاعبين يحتاج سيرفر للتحقق من النتائج';
+update();
+}
+</script>
+</body>
+</html>
